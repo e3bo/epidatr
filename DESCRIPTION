@@ -1,5 +1,5 @@
 Package: epidatr
-Title: What the Package Does (One Line, Title Case)
+Title: R Client for Delphi Epidata API
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Eamon",
@@ -7,12 +7,16 @@ Authors@R:
            role = c("aut", "cre"),
            email = "odea35@gmail.com",
            comment = c(ORCID = "0000-0003-4748-683X"))
-Description: What the package does (one paragraph).
+Description: Provides R functions for obtaining data from public parts of 
+    Delphi's epidemiological data API in the form of data frames. Functions 
+    map parameters to query strings, or alternatively make use of 
+    user-supplied query strings.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Imports: 
-    httr,
-    jsonlite
+    httr (>= 1.4.1),
+    jsonlite (>= 1.6.1)
+BugReports: https://github.com/e3bo/epidatr/issues
