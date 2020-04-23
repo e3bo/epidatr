@@ -1,0 +1,65 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# epidatr
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of epidatr is to provide a convenient way for R users to access data 
+released by the [Delphi group's](https://delphi.cmu.edu/) 
+[Epidemiological API](https://cmu-delphi.github.io/delphi-epidata/).
+Currently, it provides accesss only to the COVID-19 API endpoints. This is not
+an official R client for the API in any sense. Rather it is simply one 
+contributed option.
+
+## Installation
+
+This package may be installed from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("e3bo/epidatr")
+```
+
+ 
+
+## Example
+
+View the covid data available:
+
+```{r}
+library(epidatr)
+covidcast(source = "covidcast_meta")$epidata
+```
+
+Make a request with the default query:
+
+```{r}
+covidcast()
+```
+
+Choose a different set of dates and view the data frame:
+
+```{r}
+
+covidcast(time_values = "20200412-20200415,20200418")$epidata
+```
+
+Provide a query string:
+```{r}
+query <- "source=covidcast&data_source=fb-survey&signal=smoothed_cli&time_type=day&geo_type=county&time_values=20200406&geo_value=01000"
+covidcast(query=query)$epidata
+```
