@@ -9,10 +9,11 @@
 
 The goal of epidatr is to provide a convenient way for R users to access
 data released by the [Delphi group’s](https://delphi.cmu.edu/)
-[Epidemiological API](https://cmu-delphi.github.io/delphi-epidata/).
-Currently, it provides accesss only to the COVID-19 API endpoints. This
-is not an official R client for the API in any sense. Rather it is
-simply one contributed option.
+[Epidemiological Data
+API](https://cmu-delphi.github.io/delphi-epidata/). Currently, it
+provides accesss only to the COVID-19 API endpoints. This is not an
+official R client for the API in any sense. Rather it is simply one
+contributed option.
 
 ## Installation
 
@@ -213,7 +214,7 @@ covidcast()
 #> 
 #> $response
 #> Response [https://delphi.cmu.edu/epidata/api.php?source=covidcast&data_source=doctor-visits&signal=smoothed_cli&time_type=day&time_values=20200415&geo_type=state&geo_value=NY]
-#>   Date: 2020-04-23 18:09
+#>   Date: 2020-04-23 18:34
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 153 B
