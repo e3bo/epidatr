@@ -127,6 +127,6 @@ covidcast <- function(source = c("covidcast", "covidcast_meta"),
 
 print.epidata_api <- function(x, ...) {
   cat("<epidata ", x$url, ">\n", sep = "")
-  str(x$epidata)
+  utils::str(x$epidata)
   invisible(x)
 }
