@@ -52,7 +52,7 @@ returned from the API}
 \description{
 \code{covidcast} provides an interface to the API documented at
 \url{https://cmu-delphi.github.io/delphi-epidata/api/covidcast.html}.
-There is a simple R script available in the associated git repository
+There is a simple R script available in the delphi-epidata git repository
 which also can be used to access the API in R.
 }
 \examples{
