@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 The goal of epidatr is to provide a convenient way for R users to access data 
 released by the [Delphi group's](https://delphi.cmu.edu/) 
 [Epidata API](https://cmu-delphi.github.io/delphi-epidata/).
-Currently, it provides accesss only to the COVID-19 API endpoints. This is not
+Currently, it provides accesss only to the FluView and COVID-19 API endpoints. This is not
 an official R client for the API in any sense. Rather it is simply one 
 contributed option.
 
@@ -62,4 +62,9 @@ Provide a query string:
 ```{r}
 query <- "source=covidcast&data_source=fb-survey&signal=smoothed_cli&time_type=day&geo_type=county&time_values=20200406&geo_value=01000"
 covidcast(query=query)$epidata
+```
+
+Access archived ILInet data:
+```{r}
+fluview(epiweeks = "202001", regions = "flusight", lag = 0)$epidata
 ```

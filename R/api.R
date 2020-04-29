@@ -12,7 +12,7 @@ ua <- httr::user_agent("http://github.com/e3bo/epidatr")
 #' @param signal String specifying specific time series from data stream.
 #' @param time_type String specifying time unit.
 #' @param time_values String specifying time value of data. Dates must be in
-#'   the form YYYMMDD. Use two time values separated by "-" to obtain data from
+#'   the form YYYYMMDD. Use two time values separated by "-" to obtain data from
 #'   a range of time values. Request data from multiple time values by
 #'   concatenating them using "," as a separator.
 #' @param geo_type String specifying type of geographic unit.
@@ -24,8 +24,8 @@ ua <- httr::user_agent("http://github.com/e3bo/epidatr")
 #' @return An S3 object which is simply a list which has its own print method.
 #'   The list's elements are:
 #'   \describe{
-#'     \item{epidata}{a data frame with rows containing elements of the epidata list
-#'       returned from the API}
+#'     \item{epidata}{a data frame with rows containing elements of the
+#'       epidata list returned from the API}
 #'     \item{url}{the URL used in the API request}
 #'     \item{response}{the full response.}
 #'   }
@@ -127,14 +127,55 @@ covidcast <- function(source = c("covidcast", "covidcast_meta"),
 
 fluview_regions <- list(
   national = c("nat", paste0("hhs", 1:10)),
-  state = c(setdiff(tolower(state.abb), c("fl", "ny")), "jfk", "dc", "pr", "vi", "ny_minus_jfk"),
+  state = c(setdiff(tolower(state.abb), c("fl", "ny")), "jfk", "dc", "pr",
+            "vi", "ny_minus_jfk"),
   census = paste0("cen", 1:9)
 )
 
+#' Access Delphi's collection of CDC FluView Data
+#'
+#' \code{fluview} provides an interface to the API documented at
+#' \url{https://cmu-delphi.github.io/delphi-epidata/api/fluview.html}.
+#' There is a simple R script available in the delphi-epidata git repository
+#'  which also can be used to access the API in R.
+#'
+#' @param epiweeks String specifying epiweeks for which to request data.
+#'   Epiweeks must be in the form YYYYUU. Use two epiweeks separated by "-" to
+#'   obtain data from a range of time values. Request data from multiple time
+#'   values by concatenating them using "," as a separator.
+#' @param regions String specifying regions for which to request data. Regions
+#'   identifiers must be those used by the API or \code{flusight_state} or
+#'   \code{flusight} which gives sets of regions that are included in those
+#'   competitions.
+#' @param lag String specifying the number of weeks after the requested epiweek
+#'   to use as the issue week.  The issue week is the week at which the data are
+#'   considered up-to-date. In other words, all revisions of the data up to that
+#'   week are applied.
+#' @param issues String specifying the issues of the data to request. The formating
+#'   is the same is \code{epiweeks}. This parameter
+#'   is an alternative to lag, and overides it if present. \code{issue} = \code{lag} +
+#'   \code{epiweek}.
+#' @param query String with query for API that overides other arguments if
+#'   provided.
+#'
+#' @return An S3 object which is simply a list which has its own print method.
+#'   The list's elements are:
+#'   \describe{
+#'     \item{epidata}{a data frame with rows containing elements of the
+#'       epidata list returned from the API}
+#'     \item{url}{the URL used in the API request}
+#'     \item{response}{the full response.}
+#'   }
+#' @export
+#'
+#' @examples
+#' fluview(regions = "nat")
+#' fluview(regions = "jfk", epiweeks = "202015", lag=1)
+#' fluview(regions = "jfk", epiweeks = "202015", issues = "202016")
 fluview <- function(epiweeks = "202016",
                     regions = "flusight_state",
                     lag = 0,
-                    issue = NULL,
+                    issues = NULL,
                     query = NULL) {
   if (is.null(query)) {
     if(regions == "flusight_state"){
@@ -150,7 +191,7 @@ fluview <- function(epiweeks = "202016",
         epiweeks = epiweeks,
         regions = regions,
         lag = lag,
-        issue = issue
+        issues = issues
       )
   }
 
@@ -174,6 +215,17 @@ fluview <- function(epiweeks = "202016",
       ),
       call. = FALSE
     )
+  } else if (parsed$result != 1) {
+    stop(sprintf(
+      "epidata API unable to return results.\n result : %d\n%s\n<%s>",
+      parsed$result,
+      parsed$message,
+      paste0(
+        "https://github.com/cmu-delphi/delphi-epidata/",
+        "blob/master/docs/api/fluview.md"
+      )
+    ),
+    call. = FALSE)
   }
   structure(list(
     epidata = parsed$epidata,

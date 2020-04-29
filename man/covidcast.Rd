@@ -27,7 +27,7 @@ covidcast(
 \item{time_type}{String specifying time unit.}
 
 \item{time_values}{String specifying time value of data. Dates must be in
-the form YYYMMDD. Use two time values separated by "-" to obtain data from
+the form YYYYMMDD. Use two time values separated by "-" to obtain data from
 a range of time values. Request data from multiple time values by
 concatenating them using "," as a separator.}
 
@@ -43,8 +43,8 @@ provided.}
 An S3 object which is simply a list which has its own print method.
 The list's elements are:
 \describe{
-\item{epidata}{a data frame with rows containing elements of the epidata list
-returned from the API}
+\item{epidata}{a data frame with rows containing elements of the
+epidata list returned from the API}
 \item{url}{the URL used in the API request}
 \item{response}{the full response.}
 }
