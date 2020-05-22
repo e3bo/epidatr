@@ -42,27 +42,45 @@ covidcast <- function(source = c("covidcast", "covidcast_meta"),
                         "fb-survey",
                         "ght",
                         "google-survey",
-                        "quidel"
+                        "indicator-combination",
+                        "jhu-csse",
+                        "quidel",
+                        "youtube-survey"
                       ),
                       signal = c(
+                        "smoothed_adj_cli",
                         "smoothed_cli",
                         "raw_cli",
+                        "raw_hh_cmnty_cli",
                         "raw_ili",
+                        "raw_nohh_cmnty_cli",
                         "raw_wcli",
                         "raw_wili",
+                        "smoothed_hh_cmnty_cli",
                         "smoothed_ili",
+                        "smoothed_nohh_cmnty_cli",
                         "smoothed_wcli",
                         "smoothed_wili",
                         "raw_search",
                         "smoothed_search",
+                        "nmf_day_doc_fbs_ght",
+                        "confirmed_cumulative_num",
+                        "confirmed_incidence_num",
+                        "confirmed_incidence_prop",
+                        "deaths_cumulative_num",
+                        "deaths_incidence_num",
+                        "deaths_incidence_prop",
+                        "raw_pct_negative",
+                        "raw_tests_per_device",
                         "smoothed_pct_negative",
                         "smoothed_tests_per_device"
                       ),
                       time_type = "day",
                       time_values = "20200415",
-                      geo_type = c("state", "county", "msa", "hrr"),
+                      geo_type = c("state", "county", "msa", "hrr", "dma"),
                       geo_value = c("NY"),
                       query = NULL) {
+
   if (is.null(query)) {
     query <-
       list(

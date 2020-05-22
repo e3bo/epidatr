@@ -8,7 +8,7 @@ fluview(
   epiweeks = "202016",
   regions = "flusight_state",
   lag = 0,
-  issue = NULL,
+  issues = NULL,
   query = NULL
 )
 }
@@ -28,12 +28,13 @@ to use as the issue week.  The issue week is the week at which the data are
 considered up-to-date. In other words, all revisions of the data up to that
 week are applied.}
 
+\item{issues}{String specifying the issues of the data to request. The formating
+is the same is \code{epiweeks}. This parameter
+is an alternative to lag, and overides it if present. \code{issue} = \code{lag} +
+\code{epiweek}.}
+
 \item{query}{String with query for API that overides other arguments if
 provided.}
-
-\item{issues}{String specifying the issue of the data to request which is an
-alternative to lag, and overides it if present. \code{issue} = \code{lag} +
-\code{epiweek}.}
 }
 \value{
 An S3 object which is simply a list which has its own print method.
@@ -54,5 +55,5 @@ which also can be used to access the API in R.
 \examples{
 fluview(regions = "nat")
 fluview(regions = "jfk", epiweeks = "202015", lag=1)
-fluview(regions = "jfk", epiweeks = "202015", issue = "202016")
+fluview(regions = "jfk", epiweeks = "202015", issues = "202016")
 }
