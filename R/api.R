@@ -254,6 +254,91 @@ fluview <- function(epiweeks = "202016",
 }
 
 
+hhs_states <- c(toupper(state.abb), "DC", "PR", "VI")
+
+#' Access Delphi's collection of healthdata.gov data
+#'
+#' \code{healthdata} provides an interface to the API documented at
+#' \url{https://cmu-delphi.github.io/delphi-epidata/api/covid_hosp.html}
+#' 
+#' There is a simple R script available in the delphi-epidata git repository
+#'  which also can be used to access the API in R.
+#'
+#' @param states String specifying two-letter abbreviations of states or DC, PR, and VI. 
+#' The string "hhs_states" requests the complete set. Multiple state abbreviations
+#' can be separated with commas.
+#' @param issues String specifying a list of "issue" dates or date ranges.
+#' @param query String with query for API that overides other arguments if
+#'   provided.
+#'
+#' @return An S3 object which is simply a list which has its own print method.
+#'   The list's elements are:
+#'   \describe{
+#'     \item{epidata}{a data frame with rows containing elements of the
+#'       epidata list returned from the API}
+#'     \item{url}{the URL used in the API request}
+#'     \item{response}{the full response.}
+#'   }
+#' @export
+#'
+#' @examples
+#' healthdata(states = "hhs_states")
+#' healthdata(states="MA",dates="20200101-20201116",issue="20201116")
+
+healthdata <- function(dates = "20200510",
+                    states = "hhs_states",
+                    issues = NULL,
+                    query = NULL) {
+  if (is.null(query)) {
+    if(states == "hhs_states"){
+      states <- paste0(hhs_states, collapse = ',')
+    }
+    query <-
+      list(
+        endpoint = "covid_hosp",
+        states = states,
+        dates = dates,
+        issues = issues
+      )
+  }
+  
+  base_url <- "https://delphi.cmu.edu/epidata/api.php"
+  url <- httr::modify_url(base_url, query = query)
+  resp <- httr::GET(url, ua)
+  if (httr::http_type(resp) != "application/json") {
+    stop("API did not return json", call. = FALSE)
+  }
+  parsed <-
+    httr::content(resp, as = "parsed", simplifyVector = TRUE)
+  
+  if (httr::http_error(resp)) {
+    stop(
+      sprintf(
+        "epidata API request failed [%s]\nresult : %d\n%s\n<%s>",
+        httr::status_code(resp),
+        parsed$result,
+        parsed$message,
+        "https://cmu-delphi.github.io/delphi-epidata/api/README.html"
+      ),
+      call. = FALSE
+    )
+  } else if (parsed$result != 1) {
+    stop(sprintf(
+      "epidata API unable to return results.\n result : %d\n%s\n<%s>",
+      parsed$result,
+      parsed$message,
+      "https://cmu-delphi.github.io/delphi-epidata/api/README.html"
+    ),
+    call. = FALSE)
+  }
+  structure(list(
+    epidata = parsed$epidata,
+    url = url,
+    response = resp
+  ),
+  class = "epidata_api")
+}
+
 print.epidata_api <- function(x, ...) {
   cat("<epidata ", x$url, ">\n", sep = "")
   utils::str(x$epidata)

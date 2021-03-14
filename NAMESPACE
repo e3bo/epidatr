@@ -2,3 +2,4 @@
 
 export(covidcast)
 export(fluview)
+export(healthdata)
