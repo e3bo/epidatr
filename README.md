@@ -1,6 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+|:memo:  Take note |
+|-------------|
+|This probably isn't the epidatr you're looking for. There's a much more mature package of the same name now available from the maintainers of the epidata API. I recommend any one who stumbles upon this repo in seach of an R api client to look [there](https://cmu-delphi.github.io/epidatr/) instead. This repo will now be archived and read-only for the purpose of maintaining the reproduciblity of past projects.|
+
 # epidatr
 
 <!-- badges: start -->
